@@ -1,0 +1,829 @@
+{
+  "_meta": {
+    "source": "Mar-7th/StarRailRes",
+    "generatedAt": "2026-03-23T16:26:48.979Z",
+    "characterCount": 82
+  },
+  "characters": [
+    {
+      "id": "acheron",
+      "numericId": "1308",
+      "name": "Acheron",
+      "path": "Nihility",
+      "element": "Thunder",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "aglaea",
+      "numericId": "1402",
+      "name": "Aglaea",
+      "path": "Remembrance",
+      "element": "Thunder",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "anaxa",
+      "numericId": "1405",
+      "name": "Anaxa",
+      "path": "Erudition",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 97,
+      "dddEligible": false
+    },
+    {
+      "id": "archer",
+      "numericId": "1015",
+      "name": "Archer",
+      "path": "The Hunt",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 105,
+      "dddEligible": false
+    },
+    {
+      "id": "argenti",
+      "numericId": "1302",
+      "name": "Argenti",
+      "path": "Erudition",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "arlan",
+      "numericId": "1008",
+      "name": "Arlan",
+      "path": "Destruction",
+      "element": "Thunder",
+      "rarity": 4,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "asta",
+      "numericId": "1009",
+      "name": "Asta",
+      "path": "Harmony",
+      "element": "Fire",
+      "rarity": 4,
+      "baseSpeed": 106,
+      "dddEligible": true
+    },
+    {
+      "id": "aventurine",
+      "numericId": "1304",
+      "name": "Aventurine",
+      "path": "Preservation",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 106,
+      "dddEligible": false
+    },
+    {
+      "id": "bailu",
+      "numericId": "1211",
+      "name": "Bailu",
+      "path": "Abundance",
+      "element": "Thunder",
+      "rarity": 5,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "blackswan",
+      "numericId": "1307",
+      "name": "Black Swan",
+      "path": "Nihility",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "blade",
+      "numericId": "1205",
+      "name": "Blade",
+      "path": "Destruction",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 97,
+      "dddEligible": false
+    },
+    {
+      "id": "boothill",
+      "numericId": "1315",
+      "name": "Boothill",
+      "path": "The Hunt",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 107,
+      "dddEligible": false
+    },
+    {
+      "id": "bronya",
+      "numericId": "1101",
+      "name": "Bronya",
+      "path": "Harmony",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 99,
+      "dddEligible": true
+    },
+    {
+      "id": "castorice",
+      "numericId": "1407",
+      "name": "Castorice",
+      "path": "Remembrance",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 95,
+      "dddEligible": false
+    },
+    {
+      "id": "cerydra",
+      "numericId": "1412",
+      "name": "Cerydra",
+      "path": "Harmony",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 99,
+      "dddEligible": true
+    },
+    {
+      "id": "cipher",
+      "numericId": "1406",
+      "name": "Cipher",
+      "path": "Nihility",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 106,
+      "dddEligible": false
+    },
+    {
+      "id": "clara",
+      "numericId": "1107",
+      "name": "Clara",
+      "path": "Destruction",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 90,
+      "dddEligible": false
+    },
+    {
+      "id": "cyrene",
+      "numericId": "1415",
+      "name": "Cyrene",
+      "path": "Remembrance",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "danheng",
+      "numericId": "1002",
+      "name": "Dan Heng",
+      "path": "The Hunt",
+      "element": "Wind",
+      "rarity": 4,
+      "baseSpeed": 110,
+      "dddEligible": false
+    },
+    {
+      "id": "danhengil",
+      "numericId": "1213",
+      "name": "Dan Heng • Imbibitor Lunae",
+      "path": "Destruction",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "danhengpt",
+      "numericId": "1414",
+      "name": "Dan Heng • Permansor Terrae",
+      "path": "Preservation",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 97,
+      "dddEligible": false
+    },
+    {
+      "id": "drratio",
+      "numericId": "1305",
+      "name": "Dr. Ratio",
+      "path": "The Hunt",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "evernight",
+      "numericId": "1413",
+      "name": "Evernight",
+      "path": "Remembrance",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 99,
+      "dddEligible": false
+    },
+    {
+      "id": "feixiao",
+      "numericId": "1220",
+      "name": "Feixiao",
+      "path": "The Hunt",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 112,
+      "dddEligible": false
+    },
+    {
+      "id": "sam",
+      "numericId": "1310",
+      "name": "Firefly",
+      "path": "Destruction",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 104,
+      "dddEligible": false
+    },
+    {
+      "id": "fuxuan",
+      "numericId": "1208",
+      "name": "Fu Xuan",
+      "path": "Preservation",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 100,
+      "dddEligible": false
+    },
+    {
+      "id": "fugue",
+      "numericId": "1225",
+      "name": "Fugue",
+      "path": "Nihility",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "gallagher",
+      "numericId": "1301",
+      "name": "Gallagher",
+      "path": "Abundance",
+      "element": "Fire",
+      "rarity": 4,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "gepard",
+      "numericId": "1104",
+      "name": "Gepard",
+      "path": "Preservation",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 92,
+      "dddEligible": false
+    },
+    {
+      "id": "guinaifen",
+      "numericId": "1210",
+      "name": "Guinaifen",
+      "path": "Nihility",
+      "element": "Fire",
+      "rarity": 4,
+      "baseSpeed": 106,
+      "dddEligible": false
+    },
+    {
+      "id": "hanya",
+      "numericId": "1215",
+      "name": "Hanya",
+      "path": "Harmony",
+      "element": "Physical",
+      "rarity": 4,
+      "baseSpeed": 110,
+      "dddEligible": true
+    },
+    {
+      "id": "herta",
+      "numericId": "1013",
+      "name": "Herta",
+      "path": "Erudition",
+      "element": "Ice",
+      "rarity": 4,
+      "baseSpeed": 100,
+      "dddEligible": false
+    },
+    {
+      "id": "himeko",
+      "numericId": "1003",
+      "name": "Himeko",
+      "path": "Erudition",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": false
+    },
+    {
+      "id": "hook",
+      "numericId": "1109",
+      "name": "Hook",
+      "path": "Destruction",
+      "element": "Fire",
+      "rarity": 4,
+      "baseSpeed": 94,
+      "dddEligible": false
+    },
+    {
+      "id": "huohuo",
+      "numericId": "1217",
+      "name": "Huohuo",
+      "path": "Abundance",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "hyacine",
+      "numericId": "1409",
+      "name": "Hyacine",
+      "path": "Remembrance",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 110,
+      "dddEligible": false
+    },
+    {
+      "id": "hysilens",
+      "numericId": "1410",
+      "name": "Hysilens",
+      "path": "Nihility",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "jade",
+      "numericId": "1314",
+      "name": "Jade",
+      "path": "Erudition",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "jiaoqiu",
+      "numericId": "1218",
+      "name": "Jiaoqiu",
+      "path": "Nihility",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "jingyuan",
+      "numericId": "1204",
+      "name": "Jing Yuan",
+      "path": "Erudition",
+      "element": "Thunder",
+      "rarity": 5,
+      "baseSpeed": 99,
+      "dddEligible": false
+    },
+    {
+      "id": "jingliu",
+      "numericId": "1212",
+      "name": "Jingliu",
+      "path": "Destruction",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": false
+    },
+    {
+      "id": "kafka",
+      "numericId": "1005",
+      "name": "Kafka",
+      "path": "Nihility",
+      "element": "Thunder",
+      "rarity": 5,
+      "baseSpeed": 100,
+      "dddEligible": false
+    },
+    {
+      "id": "lingsha",
+      "numericId": "1222",
+      "name": "Lingsha",
+      "path": "Abundance",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "luka",
+      "numericId": "1111",
+      "name": "Luka",
+      "path": "Nihility",
+      "element": "Physical",
+      "rarity": 4,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "luocha",
+      "numericId": "1203",
+      "name": "Luocha",
+      "path": "Abundance",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "lynx",
+      "numericId": "1110",
+      "name": "Lynx",
+      "path": "Abundance",
+      "element": "Quantum",
+      "rarity": 4,
+      "baseSpeed": 100,
+      "dddEligible": false
+    },
+    {
+      "id": "mar7th",
+      "numericId": "1001",
+      "name": "March 7th",
+      "path": "Preservation",
+      "element": "Ice",
+      "rarity": 4,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "mar7th2",
+      "numericId": "1224",
+      "name": "March 7th",
+      "path": "The Hunt",
+      "element": "Imaginary",
+      "rarity": 4,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "misha",
+      "numericId": "1312",
+      "name": "Misha",
+      "path": "Destruction",
+      "element": "Ice",
+      "rarity": 4,
+      "baseSpeed": 96,
+      "dddEligible": false
+    },
+    {
+      "id": "moze",
+      "numericId": "1223",
+      "name": "Moze",
+      "path": "The Hunt",
+      "element": "Thunder",
+      "rarity": 4,
+      "baseSpeed": 111,
+      "dddEligible": false
+    },
+    {
+      "id": "mydei",
+      "numericId": "1404",
+      "name": "Mydei",
+      "path": "Destruction",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 95,
+      "dddEligible": false
+    },
+    {
+      "id": "natasha",
+      "numericId": "1105",
+      "name": "Natasha",
+      "path": "Abundance",
+      "element": "Physical",
+      "rarity": 4,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "pela",
+      "numericId": "1106",
+      "name": "Pela",
+      "path": "Nihility",
+      "element": "Ice",
+      "rarity": 4,
+      "baseSpeed": 105,
+      "dddEligible": false
+    },
+    {
+      "id": "phainon",
+      "numericId": "1408",
+      "name": "Phainon",
+      "path": "Destruction",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 94,
+      "dddEligible": false
+    },
+    {
+      "id": "qingque",
+      "numericId": "1201",
+      "name": "Qingque",
+      "path": "Erudition",
+      "element": "Quantum",
+      "rarity": 4,
+      "baseSpeed": 98,
+      "dddEligible": false
+    },
+    {
+      "id": "rappa",
+      "numericId": "1317",
+      "name": "Rappa",
+      "path": "Erudition",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": false
+    },
+    {
+      "id": "robin",
+      "numericId": "1309",
+      "name": "Robin",
+      "path": "Harmony",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": true
+    },
+    {
+      "id": "ruanmei",
+      "numericId": "1303",
+      "name": "Ruan Mei",
+      "path": "Harmony",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 104,
+      "dddEligible": true
+    },
+    {
+      "id": "saber",
+      "numericId": "1014",
+      "name": "Saber",
+      "path": "Destruction",
+      "element": "Wind",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "sampo",
+      "numericId": "1108",
+      "name": "Sampo",
+      "path": "Nihility",
+      "element": "Wind",
+      "rarity": 4,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "seele",
+      "numericId": "1102",
+      "name": "Seele",
+      "path": "The Hunt",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 115,
+      "dddEligible": false
+    },
+    {
+      "id": "serval",
+      "numericId": "1103",
+      "name": "Serval",
+      "path": "Erudition",
+      "element": "Thunder",
+      "rarity": 4,
+      "baseSpeed": 104,
+      "dddEligible": false
+    },
+    {
+      "id": "silverwolf",
+      "numericId": "1006",
+      "name": "Silver Wolf",
+      "path": "Nihility",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 107,
+      "dddEligible": false
+    },
+    {
+      "id": "sparkle",
+      "numericId": "1306",
+      "name": "Sparkle",
+      "path": "Harmony",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": true
+    },
+    {
+      "id": "Sparxie",
+      "numericId": "1501",
+      "name": "Sparxie",
+      "path": "Elation",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 107,
+      "dddEligible": false
+    },
+    {
+      "id": "sunday",
+      "numericId": "1313",
+      "name": "Sunday",
+      "path": "Harmony",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": true
+    },
+    {
+      "id": "sushang",
+      "numericId": "1206",
+      "name": "Sushang",
+      "path": "The Hunt",
+      "element": "Physical",
+      "rarity": 4,
+      "baseSpeed": 107,
+      "dddEligible": false
+    },
+    {
+      "id": "dahlia",
+      "numericId": "1321",
+      "name": "The Dahlia",
+      "path": "Nihility",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": false
+    },
+    {
+      "id": "theherta",
+      "numericId": "1401",
+      "name": "The Herta",
+      "path": "Erudition",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 99,
+      "dddEligible": false
+    },
+    {
+      "id": "tingyun",
+      "numericId": "1202",
+      "name": "Tingyun",
+      "path": "Harmony",
+      "element": "Thunder",
+      "rarity": 4,
+      "baseSpeed": 112,
+      "dddEligible": true
+    },
+    {
+      "id": "topaz",
+      "numericId": "1112",
+      "name": "Topaz & Numby",
+      "path": "The Hunt",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 110,
+      "dddEligible": false
+    },
+    {
+      "id": "playerboy",
+      "numericId": "8001",
+      "name": "Trailblazer (Destruction)",
+      "path": "Destruction",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 100,
+      "dddEligible": false
+    },
+    {
+      "id": "playerboy3",
+      "numericId": "8005",
+      "name": "Trailblazer (Harmony)",
+      "path": "Harmony",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 105,
+      "dddEligible": true
+    },
+    {
+      "id": "playerboy2",
+      "numericId": "8003",
+      "name": "Trailblazer (Preservation)",
+      "path": "Preservation",
+      "element": "Fire",
+      "rarity": 5,
+      "baseSpeed": 95,
+      "dddEligible": false
+    },
+    {
+      "id": "playerboy4",
+      "numericId": "8007",
+      "name": "Trailblazer (Remembrance)",
+      "path": "Remembrance",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "tribbie",
+      "numericId": "1403",
+      "name": "Tribbie",
+      "path": "Harmony",
+      "element": "Quantum",
+      "rarity": 5,
+      "baseSpeed": 96,
+      "dddEligible": true
+    },
+    {
+      "id": "welt",
+      "numericId": "1004",
+      "name": "Welt",
+      "path": "Nihility",
+      "element": "Imaginary",
+      "rarity": 5,
+      "baseSpeed": 102,
+      "dddEligible": false
+    },
+    {
+      "id": "xueyi",
+      "numericId": "1214",
+      "name": "Xueyi",
+      "path": "Destruction",
+      "element": "Quantum",
+      "rarity": 4,
+      "baseSpeed": 103,
+      "dddEligible": false
+    },
+    {
+      "id": "yanqing",
+      "numericId": "1209",
+      "name": "Yanqing",
+      "path": "The Hunt",
+      "element": "Ice",
+      "rarity": 5,
+      "baseSpeed": 109,
+      "dddEligible": false
+    },
+    {
+      "id": "yaoguang",
+      "numericId": "1502",
+      "name": "Yao Guang",
+      "path": "Elation",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 101,
+      "dddEligible": false
+    },
+    {
+      "id": "yukong",
+      "numericId": "1207",
+      "name": "Yukong",
+      "path": "Harmony",
+      "element": "Imaginary",
+      "rarity": 4,
+      "baseSpeed": 107,
+      "dddEligible": true
+    },
+    {
+      "id": "yunli",
+      "numericId": "1221",
+      "name": "Yunli",
+      "path": "Destruction",
+      "element": "Physical",
+      "rarity": 5,
+      "baseSpeed": 94,
+      "dddEligible": false
+    }
+  ]
+}
