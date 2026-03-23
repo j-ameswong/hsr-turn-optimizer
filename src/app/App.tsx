@@ -47,7 +47,7 @@ export default function App() {
         </aside>
 
         {/* Center: Timeline */}
-        <main className="overflow-hidden flex flex-col">
+        <main className="flex flex-col min-w-0">
           <Timeline
             config={config}
             simulation={simulation}

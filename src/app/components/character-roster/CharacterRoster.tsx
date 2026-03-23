@@ -54,14 +54,14 @@ export function CharacterRoster({
 
       {/* Selected team */}
       <div className="px-3 py-3 flex-shrink-0 border-b border-border">
-        <div className="grid grid-cols-2 gap-2">
+        <div className="gap-2">
           {Array.from({ length: 4 }).map((_, i) => {
             const member = config.members[i];
             if (!member) {
               return (
                 <div
                   key={i}
-                  className="h-20 rounded-md border border-dashed border-border flex items-center justify-center"
+                  className="h-15 rounded-md border border-dashed border-border flex items-center justify-center"
                 >
                   <Plus className="w-4 h-4 text-hsr-text-dim" />
                 </div>

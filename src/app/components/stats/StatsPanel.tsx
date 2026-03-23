@@ -87,6 +87,7 @@ export function StatsPanel({ config, simulation }: Props) {
                   width={20}
                 />
                 <Tooltip
+                  cursor={{ fill: 'oklch(1 0 0 / 0.05)' }}
                   contentStyle={{
                     background: 'var(--hsr-surface-2)',
                     border: '1px solid var(--border)',
