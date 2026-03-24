@@ -92,7 +92,7 @@ Character icon:    .../icon/character/{numericId}.png
 Character preview: .../image/character_preview/{numericId}.png
 Path icon:         .../icon/path/{InternalPathName}.png
 ```
-Path name mapping (display → internal): `The Hunt→Rogue, Erudition→Mage, Harmony→Shaman, Nihility→Warlock, Destruction→Warrior, Preservation→Knight, Abundance→Priest, Remembrance→Memory`
+Path name mapping (display → filename): only `The Hunt→Hunt` needs remapping; all others use the display name directly
 
 ## Persistence
 - **localStorage**: `hsr-optimizer-v1` (active config), `hsr-optimizer-presets-v1` (named presets)

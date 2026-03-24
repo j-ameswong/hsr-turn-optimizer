@@ -32,21 +32,13 @@ export function characterIcon(numericId: string): string {
  * Path icon (e.g. "Harmony", "Destruction")
  * The repo uses the internal path name, not the display name.
  */
-const DISPLAY_TO_INTERNAL: Record<string, string> = {
-  'The Hunt': 'Rogue',
-  Erudition: 'Mage',
-  Harmony: 'Shaman',
-  Nihility: 'Warlock',
-  Destruction: 'Warrior',
-  Preservation: 'Knight',
-  Abundance: 'Priest',
-  Remembrance: 'Memory',
-  Elation: 'Elation',
+const DISPLAY_TO_PATH_NAME: Record<string, string> = {
+  'The Hunt': 'Hunt',
 };
 
 export function pathIcon(displayPath: string): string {
-  const internal = DISPLAY_TO_INTERNAL[displayPath] ?? displayPath;
-  return `${BASE}/icon/path/${internal}.png`;
+  const name = DISPLAY_TO_PATH_NAME[displayPath] ?? displayPath;
+  return `${BASE}/icon/path/${name}.png`;
 }
 
 /**

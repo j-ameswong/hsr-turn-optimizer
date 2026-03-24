@@ -54,7 +54,7 @@ export function CharacterRoster({
 
       {/* Selected team */}
       <div className="px-3 py-3 flex-shrink-0 border-b border-border">
-        <div className="gap-2">
+        <div className="gap-2 px-0.5 py-0.5">
           {Array.from({ length: 4 }).map((_, i) => {
             const member = config.members[i];
             if (!member) {
@@ -164,7 +164,7 @@ interface TeamSlotProps {
 
 function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, onToggleDDD }: TeamSlotProps) {
   return (
-    <div className="relative rounded-md border border-border bg-hsr-surface-2 p-2 flex flex-col gap-1.5 group">
+    <div className="relative rounded-md border border-border bg-hsr-surface-2 p-2 my-0.5 flex flex-col gap-0.5 group">
       {/* Remove button */}
       <button
         onClick={onRemove}
@@ -211,6 +211,7 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
           value={member.speed}
           min={1}
           max={500}
+          step={0.1}
           onChange={(e) => {
             const v = parseFloat(e.target.value);
             if (!isNaN(v) && v > 0) onUpdateSpeed(v);

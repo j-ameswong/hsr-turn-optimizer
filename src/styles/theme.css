@@ -6,7 +6,7 @@
    ──────────────────────────────────────────────────────────────────────────── */
 
 :root {
-  --font-size: 20px;
+  --font-size: 16px;
 
   /* Core surfaces */
   --background:          oklch(0.11 0.02 265);   /* deep navy-black */
