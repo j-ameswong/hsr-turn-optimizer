@@ -88,36 +88,37 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenCutin, onRemo
         )}
       </div>
 
-      {/* Cut-ins on this turn */}
-      {turn.cutins.length > 0 && (
+      {/* Window actions on this turn */}
+      {(turn.inTurnActions.length > 0 || turn.outOfTurnActions.length > 0) && (
         <div className="pl-8 pr-3 pb-1 space-y-0.5">
-          {turn.cutins.map((cutin) => {
-            const cutinChar = allCharacters.find((c) => c.id === cutin.actorId);
+          {[...turn.inTurnActions, ...turn.outOfTurnActions].map((action) => {
+            const actionChar = allCharacters.find((c) => c.id === action.actorId);
+            const label = action.window === 'in-turn' ? 'Ult (in-turn)' : 'Ult cut-in';
             return (
               <div
-                key={cutin.slotKey}
+                key={action.slotKey}
                 className="flex items-center gap-2 px-2 py-1 rounded bg-hsr-purple-subtle border border-hsr-purple-dim/50 group/cutin"
               >
                 <div className="w-4 h-4 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
-                  {cutinChar && (
+                  {actionChar && (
                     <ImageWithFallback
-                      src={characterIcon(cutinChar.numericId)}
-                      alt={cutinChar.name}
+                      src={characterIcon(actionChar.numericId)}
+                      alt={actionChar.name}
                       className="w-full h-full object-cover object-top"
                     />
                   )}
                 </div>
                 <span className="text-[10px] text-hsr-purple flex-1">
-                  {cutinChar?.name ?? cutin.actorId} — Ult cut-in
+                  {actionChar?.name ?? action.actorId} — {label}
                 </span>
-                {cutin.eagleAdvanceApplied && (
+                {action.eagleAdvanceApplied && (
                   <div className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
                     <Zap className="w-2.5 h-2.5" />
-                    -{cutin.eagleAdvanceAmount.toFixed(1)} AV
+                    -{action.eagleAdvanceAmount.toFixed(1)} AV
                   </div>
                 )}
                 <button
-                  onClick={() => onRemoveCutin(cutin.slotKey)}
+                  onClick={() => onRemoveCutin(action.slotKey)}
                   className="opacity-0 group-hover/cutin:opacity-100 transition-opacity text-hsr-text-dim hover:text-hsr-text"
                 >
                   <X className="w-3 h-3" />

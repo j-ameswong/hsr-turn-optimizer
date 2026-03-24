@@ -10,8 +10,14 @@
  * Key formulas:
  *   Base AV between turns = 10000 / speed
  *   Ally advance reduction = advancePct * (10000 / targetCurrentSpeed)
- *   Eagle cut-in self-advance = 0.25 * (10000 / actorSpeed)
+ *   Eagle self-advance (out-of-turn only) = 0.25 * (10000 / actorSpeed)
  *   Speed buff: only changes future turn spacing, not current pending AV
+ *
+ * Turn windows:
+ *   In-turn window  (character turns only): fires after main action, before next turn is
+ *                   scheduled. Eagle does NOT apply. DDD advances others but not acting char.
+ *   Out-of-turn window (all turns): fires after next turn is scheduled. Eagle DOES apply.
+ *                   DDD advances everyone including the just-acted character.
  *
  * AV ties: broken alphabetically by actorId (deterministic).
  */
@@ -22,7 +28,7 @@ import type {
   ActorState,
   PendingTurn,
   ResolvedTurn,
-  ResolvedCutin,
+  ResolvedWindowAction,
   SimulationResult,
   ActionAssignment,
   SlotKey,
@@ -35,16 +41,74 @@ function baseAvGap(speed: number): number {
   return 10000 / speed;
 }
 
-function makeCharacterSlotKey(actorId: string, occurrence: number): SlotKey {
+function makeSlotKey(actorId: string, occurrence: number): SlotKey {
   return `${actorId}:${occurrence}`;
 }
 
-function makeEnemySlotKey(actorId: string, occurrence: number): SlotKey {
-  return `${actorId}:${occurrence}`;
+function makeInTurnSlotKey(actorId: string, hostSlotKey: SlotKey): SlotKey {
+  return `inturn:${actorId}:${hostSlotKey}`;
 }
 
-function makeCutinSlotKey(actorId: string, hostSlotKey: SlotKey): SlotKey {
-  return `cutin:${actorId}:${hostSlotKey}`;
+function makeOutOfTurnSlotKey(actorId: string, hostSlotKey: SlotKey): SlotKey {
+  return `outturn:${actorId}:${hostSlotKey}`;
+}
+
+/**
+ * Process one action window (in-turn or out-of-turn) for a given host turn.
+ *
+ * Scans config.members in order (user-defined ordering is preserved via member list order).
+ * Eagle only applies in the out-of-turn window.
+ */
+function processWindowActions(
+  windowType: 'in-turn' | 'out-of-turn',
+  hostSlotKey: SlotKey,
+  hostAv: number,
+  config: TeamConfig,
+  actorStates: Map<string, ActorState>,
+  pendingAV: Map<string, number>,
+  generationMap: Map<string, number>,
+  heap: TurnHeap,
+): ResolvedWindowAction[] {
+  const applyEagle = windowType === 'out-of-turn';
+  const makeKey = windowType === 'in-turn' ? makeInTurnSlotKey : makeOutOfTurnSlotKey;
+  const actions: ResolvedWindowAction[] = [];
+
+  for (const member of config.members) {
+    if (!member.characterId) continue;
+    const windowKey = makeKey(member.characterId, hostSlotKey);
+    const assignment = config.assignedActions[windowKey];
+    if (!assignment || assignment.type !== 'cutin_ult') continue;
+
+    const actor = actorStates.get(member.characterId);
+    if (!actor) continue;
+
+    let eagleAdvanceApplied = false;
+    let eagleAdvanceAmount = 0;
+
+    if (applyEagle && member.relics.eagleSet) {
+      eagleAdvanceAmount = 0.25 * baseAvGap(actor.speed);
+      const currentPending = pendingAV.get(member.characterId) ?? hostAv + baseAvGap(actor.speed);
+      const newAV = Math.max(currentPending - eagleAdvanceAmount, hostAv + Number.EPSILON);
+      pendingAV.set(member.characterId, newAV);
+
+      const newGen = (generationMap.get(member.characterId) ?? 0) + 1;
+      generationMap.set(member.characterId, newGen);
+      actor.generation = newGen;
+      heap.push({ actorId: member.characterId, actorType: 'character', av: newAV, generation: newGen });
+      eagleAdvanceApplied = true;
+    }
+
+    actions.push({
+      slotKey: windowKey,
+      actorId: member.characterId,
+      actorName: member.characterId,
+      window: windowType,
+      eagleAdvanceApplied,
+      eagleAdvanceAmount,
+    });
+  }
+
+  return actions;
 }
 
 export function simulateCycle(config: TeamConfig): SimulationResult {
@@ -85,7 +149,6 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
   }
 
   // ── Seed the heap ───────────────────────────────────────────────────────────
-  // Track per-actor pending AV (the AV at which their next turn occurs)
   const pendingAV = new Map<string, number>();
   const heap = new TurnHeap();
 
@@ -116,60 +179,12 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
     const isWithinCycle = av <= cycleLimit;
     const isCycleEdge = !isWithinCycle;
 
-    // Determine slot key
-    const slotKey =
-      state.type === 'character'
-        ? makeCharacterSlotKey(state.id, occurrence)
-        : makeEnemySlotKey(state.id, occurrence);
+    const slotKey = makeSlotKey(state.id, occurrence);
+    const assignedAction: ActionAssignment | null = config.assignedActions[slotKey] ?? null;
 
-    const assignedAction: ActionAssignment | null =
-      config.assignedActions[slotKey] ?? null;
-
-    // ── Process cut-ins on this slot (enemy turns only) ─────────────────────
-    const cutins: ResolvedCutin[] = [];
-
-    if (state.type === 'enemy') {
-      // Scan for all cutin assignments targeting this enemy slot
-      for (const member of config.members) {
-        if (!member.characterId) continue;
-        const cutinKey = makeCutinSlotKey(member.characterId, slotKey);
-        const cutinAction = config.assignedActions[cutinKey];
-        if (!cutinAction || cutinAction.type !== 'cutin_ult') continue;
-
-        const cutinActor = actorStates.get(member.characterId);
-        if (!cutinActor) continue;
-
-        const hasEagle = member.relics.eagleSet;
-        let eagleAdvanceAmount = 0;
-
-        if (hasEagle) {
-          // Eagle set: 25% self-advance after cut-in ult
-          eagleAdvanceAmount = 0.25 * baseAvGap(cutinActor.speed);
-          const currentPending = pendingAV.get(member.characterId) ?? av + baseAvGap(cutinActor.speed);
-          const newAV = Math.max(currentPending - eagleAdvanceAmount, av + Number.EPSILON);
-          pendingAV.set(member.characterId, newAV);
-
-          // Invalidate old heap entry via lazy deletion
-          const newGen = (generationMap.get(member.characterId) ?? 0) + 1;
-          generationMap.set(member.characterId, newGen);
-          cutinActor.generation = newGen;
-          heap.push({ actorId: member.characterId, actorType: 'character', av: newAV, generation: newGen });
-        }
-
-        cutins.push({
-          slotKey: cutinKey,
-          actorId: member.characterId,
-          actorName: member.characterId,
-          eagleAdvanceApplied: hasEagle,
-          eagleAdvanceAmount,
-        });
-      }
-    }
-
-    // ── Apply effects of the assigned action ────────────────────────────────
+    // ── 1. Apply main action effects ─────────────────────────────────────────
     if (assignedAction) {
       if (assignedAction.type === 'ally_advance') {
-        // Advance a teammate forward in the queue
         const targetState = actorStates.get(assignedAction.targetId);
         if (targetState) {
           const reduction = assignedAction.advancePct * baseAvGap(targetState.speed);
@@ -183,13 +198,11 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
           heap.push({ actorId: assignedAction.targetId, actorType: targetState.type, av: newAV, generation: newGen });
         }
       } else if (assignedAction.type === 'speed_buff') {
-        // Speed buff: changes future turn spacing for the target
         const targetState = actorStates.get(assignedAction.targetId);
         if (targetState) {
           targetState.speed *= (1 + assignedAction.speedPctDelta / 100);
         }
       } else if (assignedAction.type === 'custom') {
-        // Custom action: advance self + optional speed delta
         if (assignedAction.advancePct > 0) {
           const reduction = assignedAction.advancePct * baseAvGap(state.speed);
           const currentPending = pendingAV.get(state.id) ?? av + baseAvGap(state.speed);
@@ -207,7 +220,15 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
       }
     }
 
-    // ── Schedule next turn for this actor ───────────────────────────────────
+    // ── 2. In-turn window (character turns only) ─────────────────────────────
+    // Fires after main action, before next turn is scheduled.
+    // Eagle does NOT apply here.
+    const inTurnActions: ResolvedWindowAction[] =
+      state.type === 'character'
+        ? processWindowActions('in-turn', slotKey, av, config, actorStates, pendingAV, generationMap, heap)
+        : [];
+
+    // ── 3. Schedule next turn for this actor ─────────────────────────────────
     const nextAV = av + baseAvGap(state.speed);
     pendingAV.set(state.id, nextAV);
     heap.push({
@@ -217,7 +238,13 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
       generation: generationMap.get(state.id) ?? 0,
     });
 
-    // ── Record the resolved turn ────────────────────────────────────────────
+    // ── 4. Out-of-turn window (all turns) ────────────────────────────────────
+    // Fires after next turn is scheduled, so Eagle advances affect the real pending AV.
+    const outOfTurnActions = processWindowActions(
+      'out-of-turn', slotKey, av, config, actorStates, pendingAV, generationMap, heap,
+    );
+
+    // ── 5. Record the resolved turn ──────────────────────────────────────────
     resolvedTurns.push({
       slotKey,
       actorId: state.id,
@@ -228,7 +255,8 @@ export function simulateCycle(config: TeamConfig): SimulationResult {
       isWithinCycle,
       isCycleEdge,
       appliedAction: assignedAction,
-      cutins,
+      inTurnActions,
+      outOfTurnActions,
     });
 
     if (isCycleEdge) {

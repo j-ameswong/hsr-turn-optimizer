@@ -30,10 +30,11 @@ export type ActionAssignment =
   | { type: 'custom'; advancePct: number; speedPctDelta: number; label: string };
 
 /**
- * Deterministic key identifying a specific turn occurrence.
- * - Character turn:  "robin:3"           (Robin's 3rd turn)
- * - Enemy turn:      "enemy_0:2"         (first enemy's 2nd turn)
- * - Cut-in:          "cutin:robin:enemy_0:2" (Robin cuts in on enemy_0's 2nd turn)
+ * Deterministic key identifying a specific turn occurrence or window action.
+ * - Character turn:      "robin:3"                    (Robin's 3rd turn)
+ * - Enemy turn:          "enemy_0:2"                  (first enemy's 2nd turn)
+ * - In-turn action:      "inturn:robin:bronya:3"      (Robin ults during Bronya's 3rd turn in-turn window)
+ * - Out-of-turn action:  "outturn:robin:enemy_0:2"    (Robin ults after enemy_0's 2nd turn)
  */
 export type SlotKey = string;
 
@@ -64,10 +65,11 @@ export interface ActorState {
 
 // ─── Simulation Output Types ──────────────────────────────────────────────────
 
-export interface ResolvedCutin {
+export interface ResolvedWindowAction {
   slotKey: SlotKey;
   actorId: string;
   actorName: string;
+  window: 'in-turn' | 'out-of-turn';
   eagleAdvanceApplied: boolean;
   eagleAdvanceAmount: number; // AV reduction from Eagle set (for display)
 }
@@ -82,7 +84,8 @@ export interface ResolvedTurn {
   isWithinCycle: boolean; // av <= cycleLimit
   isCycleEdge: boolean;   // first turn beyond the cycle limit
   appliedAction: ActionAssignment | null;
-  cutins: ResolvedCutin[];
+  inTurnActions: ResolvedWindowAction[];    // ults cast during this turn (character turns only)
+  outOfTurnActions: ResolvedWindowAction[]; // ults cast after this turn ends, before next turn begins
 }
 
 export interface SimulationSummary {

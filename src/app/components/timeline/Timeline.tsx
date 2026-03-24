@@ -26,7 +26,7 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
   }
 
   function handleCutinConfirm(actorId: string) {
-    const cutinKey: SlotKey = `cutin:${actorId}:${cutinModal.enemySlotKey}`;
+    const cutinKey: SlotKey = `outturn:${actorId}:${cutinModal.enemySlotKey}`;
     onAssignAction(cutinKey, { type: 'cutin_ult', actorId });
   }
 
@@ -34,10 +34,10 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
     onAssignAction(cutinSlotKey, null);
   }
 
-  // Find cut-ins already on the modal's enemy slot
+  // Find cut-ins already on the modal's enemy slot (out-of-turn window)
   const existingCutins = turns
     .find((t) => t.slotKey === cutinModal.enemySlotKey)
-    ?.cutins.map((c) => c.actorId) ?? [];
+    ?.outOfTurnActions.map((c) => c.actorId) ?? [];
 
   // Find the boundary index (first sentinel turn)
   const boundaryIdx = turns.findIndex((t) => t.isCycleEdge);
