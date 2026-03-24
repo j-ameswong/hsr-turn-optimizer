@@ -197,7 +197,7 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
         <div className="flex items-center gap-1 flex-shrink-0">
           <button
             onClick={() => onToggleEagle(!member.relics.eagleSet)}
-            title="Eagle Set (Pioneer Diver — 25% advance on cut-in ult)"
+            title="Eagle Set (Pioneer Diver — 25% advance on out-of-turn ult)"
             className={`transition-opacity ${member.relics.eagleSet ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
           >
             <ImageWithFallback src={eagleSet()} alt="Eagle Set" className="w-11 h-11" />

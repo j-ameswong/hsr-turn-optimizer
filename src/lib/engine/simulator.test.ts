@@ -148,7 +148,7 @@ describe('simulateCycle', () => {
       ],
       enemies: [{ id: 'enemy_0', name: 'Boss', speed: 80 }],
       assignedActions: {
-        'outturn:robin:enemy_0:1': { type: 'cutin_ult', actorId: 'robin' },
+        'outturn:robin:enemy_0:1': { type: 'window_ult', actorId: 'robin' },
       },
     });
     const result = simulateCycle(config);
@@ -186,7 +186,7 @@ describe('simulateCycle', () => {
         { characterId: 'robin', speed: 112, relics: { eagleSet: true, dddSuperimposition: 0, vonwacq: false } },
       ],
       assignedActions: {
-        'inturn:robin:bronya:1': { type: 'cutin_ult', actorId: 'robin' },
+        'inturn:robin:bronya:1': { type: 'window_ult', actorId: 'robin' },
       },
     });
     const result = simulateCycle(config);
@@ -207,7 +207,7 @@ describe('simulateCycle', () => {
         { characterId: 'robin', speed: 112, relics: { eagleSet: true, dddSuperimposition: 0, vonwacq: false } },
       ],
       assignedActions: {
-        'outturn:robin:bronya:1': { type: 'cutin_ult', actorId: 'robin' },
+        'outturn:robin:bronya:1': { type: 'window_ult', actorId: 'robin' },
       },
     });
     const result = simulateCycle(config);

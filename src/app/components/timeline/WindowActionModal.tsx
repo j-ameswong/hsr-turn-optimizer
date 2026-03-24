@@ -7,18 +7,23 @@ import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 interface Props {
   open: boolean;
-  enemySlotKey: SlotKey;
-  enemyName: string;
+  hostSlotKey: SlotKey;
+  hostActorName: string;
+  window: 'in-turn' | 'out-of-turn';
   team: TeamConfig['members'];
-  existingCutins: string[]; // characterIds already cutting in on this slot
+  existingActions: string[]; // characterIds already assigned to this window slot
   onConfirm: (actorId: string) => void;
   onClose: () => void;
 }
 
-export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, existingCutins, onConfirm, onClose }: Props) {
+export function WindowActionModal({ open, hostSlotKey: _key, hostActorName, window: actionWindow, team, existingActions, onConfirm, onClose }: Props) {
   const [selected, setSelected] = useState<string>('');
 
   if (!open) return null;
+
+  const isOutOfTurn = actionWindow === 'out-of-turn';
+  const title = isOutOfTurn ? 'Out-of-turn Action' : 'In-turn Action';
+  const subtitle = isOutOfTurn ? `After ${hostActorName}'s turn` : `During ${hostActorName}'s turn`;
 
   function handleConfirm() {
     if (!selected) return;
@@ -33,8 +38,8 @@ export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, exis
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <div>
-            <h3 className="text-sm font-semibold text-hsr-text">Insert Cut-in</h3>
-            <p className="text-[10px] text-hsr-text-muted">During {enemyName}'s turn</p>
+            <h3 className="text-sm font-semibold text-hsr-text">{title}</h3>
+            <p className="text-[10px] text-hsr-text-muted">{subtitle}</p>
           </div>
           <button onClick={onClose} className="text-hsr-text-dim hover:text-hsr-text">
             <X className="w-4 h-4" />
@@ -45,16 +50,16 @@ export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, exis
         <div className="p-3 space-y-1.5">
           {team.map((member) => {
             const charData = allCharacters.find((c) => c.id === member.characterId);
-            const alreadyCutin = existingCutins.includes(member.characterId);
+            const alreadyAssigned = existingActions.includes(member.characterId);
             const isSelected = selected === member.characterId;
 
             return (
               <button
                 key={member.characterId}
-                disabled={alreadyCutin}
+                disabled={alreadyAssigned}
                 onClick={() => setSelected(member.characterId)}
                 className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg border transition-all text-left ${
-                  alreadyCutin
+                  alreadyAssigned
                     ? 'opacity-40 cursor-not-allowed border-border'
                     : isSelected
                     ? 'border-hsr-purple-dim bg-hsr-purple-subtle'
@@ -75,10 +80,10 @@ export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, exis
                     {charData?.name ?? member.characterId}
                   </div>
                   <div className="text-[9px] text-hsr-text-muted">
-                    {alreadyCutin ? 'Already cutting in' : `SPD ${member.speed}`}
+                    {alreadyAssigned ? 'Already assigned' : `SPD ${member.speed}`}
                   </div>
                 </div>
-                {member.relics.eagleSet && (
+                {isOutOfTurn && member.relics.eagleSet && (
                   <div title="Eagle Set — will gain 25% advance" className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
                     <Zap className="w-2.5 h-2.5" />
                     Eagle
@@ -89,12 +94,12 @@ export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, exis
           })}
         </div>
 
-        {/* Eagle set note */}
-        {selected && team.find((m) => m.characterId === selected)?.relics.eagleSet && (
+        {/* Eagle set note (out-of-turn only) */}
+        {isOutOfTurn && selected && team.find((m) => m.characterId === selected)?.relics.eagleSet && (
           <div className="mx-3 mb-2 px-2.5 py-2 rounded-md bg-hsr-gold-subtle border border-hsr-gold-dim">
             <div className="flex items-center gap-1.5 text-[10px] text-hsr-gold">
               <Zap className="w-3 h-3" />
-              Eagle Set active — 25% action advance will be applied after this cut-in.
+              Eagle Set active — 25% action advance will be applied after this action.
             </div>
           </div>
         )}
@@ -112,7 +117,7 @@ export function CutinSlotModal({ open, enemySlotKey: _key, enemyName, team, exis
             disabled={!selected}
             className="flex-1 py-2 text-xs font-medium bg-hsr-purple-subtle border border-hsr-purple-dim text-hsr-purple rounded-lg disabled:opacity-30 hover:bg-hsr-purple hover:text-white transition-colors"
           >
-            Confirm Cut-in
+            Add Action
           </button>
         </div>
       </div>

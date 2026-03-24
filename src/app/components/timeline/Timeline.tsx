@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { AlertCircle } from 'lucide-react';
 import type { TeamConfig, SimulationResult, ActionAssignment, SlotKey } from '../../../lib/engine/types';
 import { TurnRow } from './TurnRow';
-import { CutinSlotModal } from './CutinSlotModal';
+import { WindowActionModal } from './WindowActionModal';
 
 interface Props {
   config: TeamConfig;
@@ -11,33 +11,43 @@ interface Props {
 }
 
 export function Timeline({ config, simulation, onAssignAction }: Props) {
-  const [cutinModal, setCutinModal] = useState<{ open: boolean; enemySlotKey: SlotKey; enemyName: string }>({
+  const [actionModal, setActionModal] = useState<{
+    open: boolean;
+    hostSlotKey: SlotKey;
+    hostActorName: string;
+    window: 'in-turn' | 'out-of-turn';
+  }>({
     open: false,
-    enemySlotKey: '',
-    enemyName: '',
+    hostSlotKey: '',
+    hostActorName: '',
+    window: 'out-of-turn',
   });
 
   const { turns, summary } = simulation;
   const cycleLimit = summary.cycleLimit;
 
-  function handleOpenCutin(enemySlotKey: SlotKey) {
-    const turn = turns.find((t) => t.slotKey === enemySlotKey);
-    setCutinModal({ open: true, enemySlotKey, enemyName: turn?.actorName ?? 'Enemy' });
+  function handleOpenWindowAction(hostSlotKey: SlotKey, window: 'in-turn' | 'out-of-turn') {
+    const turn = turns.find((t) => t.slotKey === hostSlotKey);
+    setActionModal({ open: true, hostSlotKey, hostActorName: turn?.actorName ?? 'Actor', window });
   }
 
-  function handleCutinConfirm(actorId: string) {
-    const cutinKey: SlotKey = `outturn:${actorId}:${cutinModal.enemySlotKey}`;
-    onAssignAction(cutinKey, { type: 'cutin_ult', actorId });
+  function handleWindowActionConfirm(actorId: string) {
+    const prefix = actionModal.window === 'in-turn' ? 'inturn' : 'outturn';
+    const actionKey: SlotKey = `${prefix}:${actorId}:${actionModal.hostSlotKey}`;
+    onAssignAction(actionKey, { type: 'window_ult', actorId });
   }
 
-  function handleRemoveCutin(cutinSlotKey: SlotKey) {
-    onAssignAction(cutinSlotKey, null);
+  function handleRemoveWindowAction(actionSlotKey: SlotKey) {
+    onAssignAction(actionSlotKey, null);
   }
 
-  // Find cut-ins already on the modal's enemy slot (out-of-turn window)
-  const existingCutins = turns
-    .find((t) => t.slotKey === cutinModal.enemySlotKey)
-    ?.outOfTurnActions.map((c) => c.actorId) ?? [];
+  // Existing actions already assigned to the modal's current window slot
+  const existingActions = (() => {
+    const turn = turns.find((t) => t.slotKey === actionModal.hostSlotKey);
+    if (!turn) return [];
+    const actions = actionModal.window === 'in-turn' ? turn.inTurnActions : turn.outOfTurnActions;
+    return actions.map((a) => a.actorId);
+  })();
 
   // Find the boundary index (first sentinel turn)
   const boundaryIdx = turns.findIndex((t) => t.isCycleEdge);
@@ -67,7 +77,7 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
               <span className="w-2 h-2 rounded-full bg-turn-enemy" /> Enemy
             </span>
             <span className="flex items-center gap-1">
-              <span className="w-2 h-2 rounded-full bg-turn-cutin" /> Cut-in
+              <span className="w-2 h-2 rounded-full bg-turn-cutin" /> Action
             </span>
           </div>
         )}
@@ -114,23 +124,24 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
                 index={i}
                 team={config.members}
                 onAssignAction={onAssignAction}
-                onOpenCutin={handleOpenCutin}
-                onRemoveCutin={handleRemoveCutin}
+                onOpenWindowAction={handleOpenWindowAction}
+                onRemoveWindowAction={handleRemoveWindowAction}
               />
             </div>
           ))
         )}
       </div>
 
-      {/* Cut-in modal */}
-      <CutinSlotModal
-        open={cutinModal.open}
-        enemySlotKey={cutinModal.enemySlotKey}
-        enemyName={cutinModal.enemyName}
+      {/* Window action modal */}
+      <WindowActionModal
+        open={actionModal.open}
+        hostSlotKey={actionModal.hostSlotKey}
+        hostActorName={actionModal.hostActorName}
+        window={actionModal.window}
         team={config.members}
-        existingCutins={existingCutins}
-        onConfirm={handleCutinConfirm}
-        onClose={() => setCutinModal((s) => ({ ...s, open: false }))}
+        existingActions={existingActions}
+        onConfirm={handleWindowActionConfirm}
+        onClose={() => setActionModal((s) => ({ ...s, open: false }))}
       />
     </div>
   );

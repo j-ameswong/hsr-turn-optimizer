@@ -3,7 +3,7 @@
 export type CycleMode = 'moc' | 'aa';
 
 export interface RelicConfig {
-  eagleSet: boolean;         // Pioneer Diver of Dead Waters 4pc: 25% advance on cut-in ult
+  eagleSet: boolean;         // Pioneer Diver of Dead Waters 4pc: 25% advance on out-of-turn window ult
   dddSuperimposition: number; // Dance! Dance! Dance! — 0 = off, 1–5 = S1–S5; advance = 0.14 + level * 0.02
   vonwacq: boolean;          // Vonwacq planar set
 }
@@ -26,7 +26,7 @@ export type ActionAssignment =
   | { type: 'basic' | 'skill' | 'ult' | 'none' }
   | { type: 'ally_advance'; targetId: string; advancePct: number }
   | { type: 'speed_buff'; targetId: string; speedPctDelta: number }
-  | { type: 'cutin_ult'; actorId: string }
+  | { type: 'window_ult'; actorId: string }
   | { type: 'custom'; advancePct: number; speedPctDelta: number; label: string };
 
 /**

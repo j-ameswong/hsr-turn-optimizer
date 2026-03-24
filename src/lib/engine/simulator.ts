@@ -77,7 +77,7 @@ function processWindowActions(
     if (!member.characterId) continue;
     const windowKey = makeKey(member.characterId, hostSlotKey);
     const assignment = config.assignedActions[windowKey];
-    if (!assignment || assignment.type !== 'cutin_ult') continue;
+    if (!assignment || assignment.type !== 'window_ult') continue;
 
     const actor = actorStates.get(member.characterId);
     if (!actor) continue;

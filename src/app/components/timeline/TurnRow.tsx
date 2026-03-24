@@ -10,11 +10,11 @@ interface Props {
   index: number;
   team: TeamConfig['members'];
   onAssignAction: (slotKey: SlotKey, action: ActionAssignment | null) => void;
-  onOpenCutin: (enemySlotKey: SlotKey) => void;
-  onRemoveCutin: (cutinSlotKey: SlotKey) => void;
+  onOpenWindowAction: (hostSlotKey: SlotKey, window: 'in-turn' | 'out-of-turn') => void;
+  onRemoveWindowAction: (actionSlotKey: SlotKey) => void;
 }
 
-export function TurnRow({ turn, index, team, onAssignAction, onOpenCutin, onRemoveCutin }: Props) {
+export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction, onRemoveWindowAction }: Props) {
   const isEnemy = turn.actorType === 'enemy';
   const isSentinel = turn.isCycleEdge;
 
@@ -27,6 +27,8 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenCutin, onRemo
     : isEnemy
     ? 'border-l-2 border-l-turn-enemy'
     : 'border-l-2 border-l-turn-character';
+
+  const hasActions = turn.inTurnActions.length > 0 || turn.outOfTurnActions.length > 0;
 
   return (
     <div className={`group ${rowClass}`}>
@@ -64,7 +66,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenCutin, onRemo
           {turn.av.toFixed(1)}
         </span>
 
-        {/* Action picker (character turns only) */}
+        {/* Action area */}
         {!isSentinel && (
           <div className="flex-shrink-0">
             {!isEnemy ? (
@@ -77,55 +79,108 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenCutin, onRemo
               />
             ) : (
               <button
-                onClick={() => onOpenCutin(turn.slotKey)}
+                onClick={() => onOpenWindowAction(turn.slotKey, 'out-of-turn')}
                 className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border border-border text-hsr-text-dim hover:border-hsr-purple-dim hover:text-hsr-purple transition-colors"
               >
                 <Plus className="w-2.5 h-2.5" />
-                Cut-in
+                Action
               </button>
             )}
           </div>
         )}
       </div>
 
-      {/* Window actions on this turn */}
-      {(turn.inTurnActions.length > 0 || turn.outOfTurnActions.length > 0) && (
-        <div className="pl-8 pr-3 pb-1 space-y-0.5">
-          {[...turn.inTurnActions, ...turn.outOfTurnActions].map((action) => {
-            const actionChar = allCharacters.find((c) => c.id === action.actorId);
-            const label = action.window === 'in-turn' ? 'Ult (in-turn)' : 'Ult cut-in';
-            return (
-              <div
-                key={action.slotKey}
-                className="flex items-center gap-2 px-2 py-1 rounded bg-hsr-purple-subtle border border-hsr-purple-dim/50 group/cutin"
-              >
-                <div className="w-4 h-4 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
-                  {actionChar && (
-                    <ImageWithFallback
-                      src={characterIcon(actionChar.numericId)}
-                      alt={actionChar.name}
-                      className="w-full h-full object-cover object-top"
-                    />
-                  )}
-                </div>
-                <span className="text-[10px] text-hsr-purple flex-1">
-                  {actionChar?.name ?? action.actorId} — {label}
-                </span>
-                {action.eagleAdvanceApplied && (
-                  <div className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
-                    <Zap className="w-2.5 h-2.5" />
-                    -{action.eagleAdvanceAmount.toFixed(1)} AV
+      {/* Nested window actions */}
+      {!isSentinel && (
+        <div className={`pl-8 pr-3 ${hasActions ? 'pb-1' : 'group-hover:pb-1'}`}>
+          {/* In-turn actions (character turns only) */}
+          {!isEnemy && (
+            <div className="space-y-0.5">
+              {turn.inTurnActions.map((action) => {
+                const actionChar = allCharacters.find((c) => c.id === action.actorId);
+                return (
+                  <div
+                    key={action.slotKey}
+                    className="flex items-center gap-2 px-2 py-1 rounded bg-hsr-purple-subtle border border-hsr-purple-dim/50 group/action"
+                  >
+                    <div className="w-4 h-4 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
+                      {actionChar && (
+                        <ImageWithFallback
+                          src={characterIcon(actionChar.numericId)}
+                          alt={actionChar.name}
+                          className="w-full h-full object-cover object-top"
+                        />
+                      )}
+                    </div>
+                    <span className="text-[10px] text-hsr-purple flex-1">
+                      {actionChar?.name ?? action.actorId} — Ult (in-turn)
+                    </span>
+                    <button
+                      onClick={() => onRemoveWindowAction(action.slotKey)}
+                      className="opacity-0 group-hover/action:opacity-100 transition-opacity text-hsr-text-dim hover:text-hsr-text"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
                   </div>
-                )}
-                <button
-                  onClick={() => onRemoveCutin(action.slotKey)}
-                  className="opacity-0 group-hover/cutin:opacity-100 transition-opacity text-hsr-text-dim hover:text-hsr-text"
+                );
+              })}
+              <button
+                onClick={() => onOpenWindowAction(turn.slotKey, 'in-turn')}
+                className="hidden group-hover:flex items-center gap-1 text-[9px] px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
+              >
+                <Plus className="w-2.5 h-2.5" />
+                In-turn action
+              </button>
+            </div>
+          )}
+
+          {/* Out-of-turn actions */}
+          <div className={`space-y-0.5 ${!isEnemy && turn.inTurnActions.length > 0 ? 'mt-0.5' : ''}`}>
+            {turn.outOfTurnActions.map((action) => {
+              const actionChar = allCharacters.find((c) => c.id === action.actorId);
+              return (
+                <div
+                  key={action.slotKey}
+                  className="flex items-center gap-2 px-2 py-1 rounded bg-hsr-purple-subtle border border-hsr-purple-dim/50 group/action"
                 >
-                  <X className="w-3 h-3" />
-                </button>
-              </div>
-            );
-          })}
+                  <div className="w-4 h-4 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
+                    {actionChar && (
+                      <ImageWithFallback
+                        src={characterIcon(actionChar.numericId)}
+                        alt={actionChar.name}
+                        className="w-full h-full object-cover object-top"
+                      />
+                    )}
+                  </div>
+                  <span className="text-[10px] text-hsr-purple flex-1">
+                    {actionChar?.name ?? action.actorId} — Ult (out-of-turn)
+                  </span>
+                  {action.eagleAdvanceApplied && (
+                    <div className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
+                      <Zap className="w-2.5 h-2.5" />
+                      -{action.eagleAdvanceAmount.toFixed(1)} AV
+                    </div>
+                  )}
+                  <button
+                    onClick={() => onRemoveWindowAction(action.slotKey)}
+                    className="opacity-0 group-hover/action:opacity-100 transition-opacity text-hsr-text-dim hover:text-hsr-text"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              );
+            })}
+            {/* Add out-of-turn button for character turns only; enemy turns use the inline button in the main row */}
+            {!isEnemy && (
+              <button
+                onClick={() => onOpenWindowAction(turn.slotKey, 'out-of-turn')}
+                className="hidden group-hover:flex items-center gap-1 text-[9px] px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
+              >
+                <Plus className="w-2.5 h-2.5" />
+                Out-of-turn action
+              </button>
+            )}
+          </div>
         </div>
       )}
     </div>
