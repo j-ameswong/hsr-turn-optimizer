@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { Search, X, Plus, Zap, Music } from 'lucide-react';
+import { Search, X, Plus } from 'lucide-react';
 import type { TeamConfig } from '../../../lib/engine/types';
 import { allCharacters } from '../../../hooks/useCharacterData';
 import type { Character } from '../../../data/schema';
-import { characterIcon, characterPreview, pathIcon } from '../../../lib/assets';
+import { characterIcon, characterPreview, eagleSet, dddLc, vonwacq } from '../../../lib/assets';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 
 interface Props {
@@ -12,7 +12,8 @@ interface Props {
   onRemoveMember: (characterId: string) => void;
   onUpdateSpeed: (characterId: string, speed: number) => void;
   onToggleEagle: (characterId: string, enabled: boolean) => void;
-  onToggleDDD: (characterId: string, enabled: boolean) => void;
+  onSetDDDSuperimposition: (characterId: string, level: number) => void;
+  onToggleVonwacq: (characterId: string, enabled: boolean) => void;
 }
 
 const ELEMENT_COLORS: Record<string, string> = {
@@ -35,7 +36,8 @@ export function CharacterRoster({
   onRemoveMember,
   onUpdateSpeed,
   onToggleEagle,
-  onToggleDDD,
+  onSetDDDSuperimposition,
+  onToggleVonwacq,
 }: Props) {
   const [query, setQuery] = useState('');
   const selectedIds = new Set(config.members.map((m) => m.characterId));
@@ -61,7 +63,7 @@ export function CharacterRoster({
               return (
                 <div
                   key={i}
-                  className="h-15 rounded-md border border-dashed border-border flex items-center justify-center"
+                  className="min-h-[70px] my-2 rounded-md border border-dashed border-border flex items-center justify-center"
                 >
                   <Plus className="w-4 h-4 text-hsr-text-dim" />
                 </div>
@@ -76,7 +78,8 @@ export function CharacterRoster({
                 onRemove={() => onRemoveMember(member.characterId)}
                 onUpdateSpeed={(v) => onUpdateSpeed(member.characterId, v)}
                 onToggleEagle={(v) => onToggleEagle(member.characterId, v)}
-                onToggleDDD={(v) => onToggleDDD(member.characterId, v)}
+                onSetDDDSuperimposition={(level) => onSetDDDSuperimposition(member.characterId, level)}
+                onToggleVonwacq={(v) => onToggleVonwacq(member.characterId, v)}
               />
             );
           })}
@@ -159,12 +162,14 @@ interface TeamSlotProps {
   onRemove: () => void;
   onUpdateSpeed: (v: number) => void;
   onToggleEagle: (v: boolean) => void;
-  onToggleDDD: (v: boolean) => void;
+  onSetDDDSuperimposition: (level: number) => void;
+  onToggleVonwacq: (v: boolean) => void;
 }
 
-function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, onToggleDDD }: TeamSlotProps) {
+function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, onSetDDDSuperimposition, onToggleVonwacq }: TeamSlotProps) {
+  const dddActive = member.relics.dddSuperimposition > 0;
   return (
-    <div className="relative rounded-md border border-border bg-hsr-surface-2 p-2 my-0.5 flex flex-col gap-0.5 group">
+    <div className="relative rounded-md border border-border bg-hsr-surface-2 p-0.5 my-2 flex flex-col gap-1 group">
       {/* Remove button */}
       <button
         onClick={onRemove}
@@ -173,9 +178,9 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
         <X className="w-3 h-3" />
       </button>
 
-      {/* Portrait + name */}
-      <div className="flex items-center gap-2">
-        <div className="w-9 h-9 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
+      {/* Portrait + name + equipment toggles */}
+      <div className="flex items-center gap-1.5">
+        <div className="w-13 h-13 rounded overflow-hidden bg-hsr-surface-0 flex-shrink-0">
           {charData ? (
             <ImageWithFallback
               src={characterPreview(charData.numericId)}
@@ -186,26 +191,39 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
             <div className="w-full h-full bg-hsr-surface-1" />
           )}
         </div>
-        <div className="flex-1 min-w-0">
-          <div className="text-[10px] font-medium text-hsr-text truncate leading-tight">
-            {charData?.name ?? member.characterId}
-          </div>
-          {charData && (
-            <div className="flex items-center gap-1 mt-0.5">
-              <ImageWithFallback
-                src={pathIcon(charData.path)}
-                alt={charData.path}
-                className="w-3 h-3 opacity-60"
-              />
-              <span className="text-[9px] text-hsr-text-muted">{charData.path}</span>
-            </div>
+        <span className="flex-1 min-w-0 text-[10px] font-medium text-hsr-text truncate leading-tight">
+          {charData?.name ?? member.characterId}
+        </span>
+        <div className="flex items-center gap-1 flex-shrink-0">
+          <button
+            onClick={() => onToggleEagle(!member.relics.eagleSet)}
+            title="Eagle Set (Pioneer Diver — 25% advance on cut-in ult)"
+            className={`transition-opacity ${member.relics.eagleSet ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
+          >
+            <ImageWithFallback src={eagleSet()} alt="Eagle Set" className="w-11 h-11" />
+          </button>
+          <button
+            onClick={() => onToggleVonwacq(!member.relics.vonwacq)}
+            title="Vonwacq planar set"
+            className={`transition-opacity ${member.relics.vonwacq ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
+          >
+            <ImageWithFallback src={vonwacq()} alt="Vonwacq" className="w-11 h-11" />
+          </button>
+          {charData?.dddEligible && (
+            <button
+              onClick={() => onSetDDDSuperimposition(dddActive ? 0 : 1)}
+              title="Dance! Dance! Dance! (advance all allies on ult)"
+              className={`transition-opacity ${dddActive ? 'opacity-100' : 'opacity-30 hover:opacity-60'}`}
+            >
+              <ImageWithFallback src={dddLc()} alt="Dance! Dance! Dance!" className="w-11 h-11" />
+            </button>
           )}
         </div>
       </div>
 
       {/* Speed input */}
-      <div className="flex items-center gap-1.5">
-        <span className="text-[9px] text-hsr-text-dim">SPD</span>
+      <div className="flex items-center gap-1.5 px-0.5">
+        <span className="text-[9px] text-hsr-text-dim flex-1">SPD</span>
         <input
           type="number"
           value={member.speed}
@@ -216,39 +234,28 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
             const v = parseFloat(e.target.value);
             if (!isNaN(v) && v > 0) onUpdateSpeed(v);
           }}
-          className="flex-1 text-xs text-center bg-hsr-surface-0 border border-border rounded px-1 py-0.5 text-hsr-text focus:outline-none focus:border-hsr-gold-dim w-0"
+          className="w-16 text-xs text-center bg-hsr-surface-0 border border-border rounded px-1 py-0.5 text-hsr-text focus:outline-none focus:border-hsr-gold-dim"
         />
       </div>
 
-      {/* Relic toggles */}
-      <div className="flex gap-1">
-        <button
-          onClick={() => onToggleEagle(!member.relics.eagleSet)}
-          title="Eagle Set (Pioneer Diver — 25% advance on cut-in ult)"
-          className={`flex-1 flex items-center justify-center gap-0.5 py-0.5 rounded text-[9px] font-medium transition-colors border ${
-            member.relics.eagleSet
-              ? 'bg-hsr-gold-subtle border-hsr-gold-dim text-hsr-gold'
-              : 'border-border text-hsr-text-dim hover:border-border'
-          }`}
-        >
-          <Zap className="w-2.5 h-2.5" />
-          Eagle
-        </button>
-        {charData?.dddEligible && (
-          <button
-            onClick={() => onToggleDDD(!member.relics.dddSet)}
-            title="Dance! Dance! Dance! (15% advance to all allies on ult)"
-            className={`flex-1 flex items-center justify-center gap-0.5 py-0.5 rounded text-[9px] font-medium transition-colors border ${
-              member.relics.dddSet
-                ? 'bg-hsr-purple-subtle border-hsr-purple-dim text-hsr-purple'
-                : 'border-border text-hsr-text-dim hover:border-border'
-            }`}
-          >
-            <Music className="w-2.5 h-2.5" />
-            DDD
-          </button>
-        )}
-      </div>
+      {/* DDD superimposition selector */}
+      {charData?.dddEligible && dddActive && (
+        <div className="flex items-center gap-1 px-0.5">
+          {[1, 2, 3, 4, 5].map((level) => (
+            <button
+              key={level}
+              onClick={() => onSetDDDSuperimposition(level)}
+              className={`flex-1 py-0.5 rounded text-[9px] font-medium transition-colors border ${
+                member.relics.dddSuperimposition === level
+                  ? 'bg-hsr-purple-subtle border-hsr-purple-dim text-hsr-purple'
+                  : 'border-border text-hsr-text-dim hover:border-hsr-purple-dim hover:text-hsr-text'
+              }`}
+            >
+              S{level}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

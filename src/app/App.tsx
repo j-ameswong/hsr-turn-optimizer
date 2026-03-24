@@ -42,7 +42,8 @@ export default function App() {
             onRemoveMember={teamConfig.removeMember}
             onUpdateSpeed={teamConfig.updateMemberSpeed}
             onToggleEagle={teamConfig.toggleEagleSet}
-            onToggleDDD={teamConfig.toggleDDDSet}
+            onSetDDDSuperimposition={teamConfig.setDDDSuperimposition}
+            onToggleVonwacq={teamConfig.toggleVonwacq}
           />
         </aside>
 
@@ -79,7 +80,8 @@ export default function App() {
               onRemoveMember={teamConfig.removeMember}
               onUpdateSpeed={teamConfig.updateMemberSpeed}
               onToggleEagle={teamConfig.toggleEagleSet}
-              onToggleDDD={teamConfig.toggleDDDSet}
+              onSetDDDSuperimposition={teamConfig.setDDDSuperimposition}
+              onToggleVonwacq={teamConfig.toggleVonwacq}
             />
           )}
           {mobileTab === 'timeline' && (

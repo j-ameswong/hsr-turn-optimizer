@@ -58,7 +58,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
       </button>
 
       {open && (
-        <div className="absolute z-50 top-full mt-1 left-0 w-48 bg-hsr-surface-2 border border-border rounded-md shadow-xl overflow-hidden">
+        <div className="absolute z-50 top-full mt-1 right-0 w-48 bg-hsr-surface-2 border border-border rounded-md shadow-xl overflow-hidden">
           {/* Clear */}
           {displayLabel && (
             <button
@@ -104,7 +104,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
                   <option value="">Select target…</option>
                   {team.map((m) => (
                     <option key={m.characterId} value={m.characterId}>
-                      {m.characterId}
+                      {m.characterId.charAt(0).toUpperCase() + m.characterId.slice(1)}
                     </option>
                   ))}
                 </select>

@@ -47,3 +47,24 @@ export function pathIcon(displayPath: string): string {
 export function elementIcon(element: string): string {
   return `${BASE}/icon/element/${element}.png`;
 }
+
+/**
+ * Eagle Set
+ */
+export function eagleSet(): string {
+  return `${BASE}/icon/relic/110.png`;
+}
+
+/**
+ * Dance Dance Dance LC
+ */
+export function dddLc(): string {
+  return `${BASE}/icon/light_cone/21018.png`;
+}
+
+/**
+ * Vonwacq Planar Set
+ */
+export function vonwacq(): string {
+  return `${BASE}/icon/relic/308.png`;
+}

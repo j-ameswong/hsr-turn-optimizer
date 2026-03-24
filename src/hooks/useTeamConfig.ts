@@ -28,7 +28,7 @@ export function useTeamConfig() {
       const newMember: TeamMember = {
         characterId,
         speed: baseSpeed,
-        relics: { eagleSet: false, dddSet: false },
+        relics: { eagleSet: false, dddSuperimposition: 0, vonwacq: false },
       };
       return { ...c, members: [...c.members, newMember] };
     });
@@ -71,12 +71,23 @@ export function useTeamConfig() {
     }));
   }, []);
 
-  const toggleDDDSet = useCallback((characterId: string, enabled: boolean) => {
+  const setDDDSuperimposition = useCallback((characterId: string, level: number) => {
     setConfig((c) => ({
       ...c,
       members: c.members.map((m) =>
         m.characterId === characterId
-          ? { ...m, relics: { ...m.relics, dddSet: enabled } }
+          ? { ...m, relics: { ...m.relics, dddSuperimposition: level } }
+          : m,
+      ),
+    }));
+  }, []);
+
+  const toggleVonwacq = useCallback((characterId: string, enabled: boolean) => {
+    setConfig((c) => ({
+      ...c,
+      members: c.members.map((m) =>
+        m.characterId === characterId
+          ? { ...m, relics: { ...m.relics, vonwacq: enabled } }
           : m,
       ),
     }));
@@ -145,7 +156,8 @@ export function useTeamConfig() {
     removeMember,
     updateMemberSpeed,
     toggleEagleSet,
-    toggleDDDSet,
+    setDDDSuperimposition,
+    toggleVonwacq,
     // Enemies
     addEnemy,
     removeEnemy,
