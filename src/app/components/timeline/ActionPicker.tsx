@@ -47,7 +47,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
     <div ref={ref} className="relative">
       <button
         onClick={() => setOpen((o) => !o)}
-        className={`flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border transition-colors ${
+        className={`flex items-center gap-1 text-mini px-2 py-0.5 rounded border transition-colors ${
           displayLabel
             ? 'border-hsr-gold-dim bg-hsr-gold-subtle text-hsr-gold'
             : 'border-border text-hsr-text-dim hover:border-hsr-gold-dim hover:text-hsr-text'
@@ -73,7 +73,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
           {actorType === 'character' && (
             <>
               <div className="px-3 pt-2 pb-1">
-                <span className="text-[9px] text-hsr-text-dim uppercase tracking-wider">Actions</span>
+                <span className="text-micro text-hsr-text-dim uppercase tracking-wider">Actions</span>
               </div>
               {BASE_ACTIONS.map((a) => (
                 <button
@@ -93,7 +93,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
           {actorType === 'character' && team.length > 1 && (
             <>
               <div className="px-3 pt-2 pb-1 border-t border-border mt-1">
-                <span className="text-[9px] text-hsr-text-dim uppercase tracking-wider">Ally Advance</span>
+                <span className="text-micro text-hsr-text-dim uppercase tracking-wider">Ally Advance</span>
               </div>
               <div className="px-3 py-1.5 space-y-1.5">
                 <select
@@ -117,7 +117,7 @@ export function ActionPicker({ slotKey, current, actorType, team, onChange }: Pr
                     max={200}
                     className="w-16 text-xs text-center bg-hsr-surface-0 border border-border rounded px-1 py-1 text-hsr-text focus:outline-none"
                   />
-                  <span className="text-[10px] text-hsr-text-dim">%</span>
+                  <span className="text-mini text-hsr-text-dim">%</span>
                   <button
                     disabled={!advanceTarget}
                     onClick={() => {

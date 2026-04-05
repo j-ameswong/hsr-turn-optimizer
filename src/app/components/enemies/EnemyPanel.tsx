@@ -70,7 +70,7 @@ export function EnemyPanel({ enemies, onAddEnemy, onRemoveEnemy, onUpdateEnemy }
         ))}
 
         {enemies.length === 0 && !addingNew && (
-          <p className="text-[10px] text-hsr-text-dim text-center py-3">
+          <p className="text-mini text-hsr-text-dim text-center py-3">
             No enemies added. Enemy turns appear in the timeline.
           </p>
         )}
@@ -132,7 +132,7 @@ function EnemyRow({ enemy, onRemove, onUpdate }: EnemyRowProps) {
         className="flex-1 text-xs bg-transparent text-hsr-text focus:outline-none min-w-0"
       />
       <div className="flex items-center gap-1 flex-shrink-0">
-        <span className="text-[9px] text-hsr-text-dim">SPD</span>
+        <span className="text-micro text-hsr-text-dim">SPD</span>
         <input
           type="number"
           value={enemy.speed}

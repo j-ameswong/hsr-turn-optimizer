@@ -2,3 +2,11 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+@theme inline {
+  /* Sub-xs text sizes — rem-based so they scale with --font-size in theme.css.
+     micro = 9/16rem (was text-[9px], now ~11px at 19.2px root)
+     mini  = 10/16rem (was text-[10px], now ~12px at 19.2px root) */
+  --text-micro: 0.5625rem;
+  --text-mini: 0.625rem;
+}

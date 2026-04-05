@@ -21,7 +21,7 @@ export function MobileNav({ active, onChange }: Props) {
         <button
           key={id}
           onClick={() => onChange(id)}
-          className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-[10px] font-medium transition-colors ${
+          className={`flex flex-1 flex-col items-center gap-0.5 py-2.5 text-mini font-medium transition-colors ${
             active === id
               ? 'text-hsr-gold'
               : 'text-hsr-text-muted hover:text-hsr-text'

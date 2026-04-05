@@ -3,7 +3,7 @@ import { X, Zap } from 'lucide-react';
 import type { TeamConfig, SlotKey } from '../../../lib/engine/types';
 import { allCharacters } from '../../../hooks/useCharacterData';
 import { characterIcon } from '../../../lib/assets';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
+import { ImageWithFallback } from '../shared/ImageWithFallback';
 
 interface Props {
   open: boolean;
@@ -39,7 +39,7 @@ export function WindowActionModal({ open, hostSlotKey: _key, hostActorName, wind
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
           <div>
             <h3 className="text-sm font-semibold text-hsr-text">{title}</h3>
-            <p className="text-[10px] text-hsr-text-muted">{subtitle}</p>
+            <p className="text-mini text-hsr-text-muted">{subtitle}</p>
           </div>
           <button onClick={onClose} className="text-hsr-text-dim hover:text-hsr-text">
             <X className="w-4 h-4" />
@@ -79,12 +79,12 @@ export function WindowActionModal({ open, hostSlotKey: _key, hostActorName, wind
                   <div className="text-xs font-medium text-hsr-text truncate">
                     {charData?.name ?? member.characterId}
                   </div>
-                  <div className="text-[9px] text-hsr-text-muted">
+                  <div className="text-micro text-hsr-text-muted">
                     {alreadyAssigned ? 'Already assigned' : `SPD ${member.speed}`}
                   </div>
                 </div>
                 {isOutOfTurn && member.relics.eagleSet && (
-                  <div title="Eagle Set — will gain 25% advance" className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
+                  <div title="Eagle Set — will gain 25% advance" className="flex items-center gap-0.5 text-micro text-hsr-gold">
                     <Zap className="w-2.5 h-2.5" />
                     Eagle
                   </div>
@@ -97,7 +97,7 @@ export function WindowActionModal({ open, hostSlotKey: _key, hostActorName, wind
         {/* Eagle set note (out-of-turn only) */}
         {isOutOfTurn && selected && team.find((m) => m.characterId === selected)?.relics.eagleSet && (
           <div className="mx-3 mb-2 px-2.5 py-2 rounded-md bg-hsr-gold-subtle border border-hsr-gold-dim">
-            <div className="flex items-center gap-1.5 text-[10px] text-hsr-gold">
+            <div className="flex items-center gap-1.5 text-mini text-hsr-gold">
               <Zap className="w-3 h-3" />
               Eagle Set active — 25% action advance will be applied after this action.
             </div>

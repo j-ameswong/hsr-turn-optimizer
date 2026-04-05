@@ -4,7 +4,7 @@ import type { TeamConfig } from '../../../lib/engine/types';
 import { allCharacters } from '../../../hooks/useCharacterData';
 import type { Character } from '../../../data/schema';
 import { characterIcon, characterPreview, eagleSet, dddLc, vonwacq } from '../../../lib/assets';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
+import { ImageWithFallback } from '../shared/ImageWithFallback';
 
 interface Props {
   config: TeamConfig;
@@ -140,7 +140,7 @@ export function CharacterRoster({
                   {/* Rarity indicator */}
                   <div className={`absolute bottom-0 left-0 right-0 h-0.5 ${char.rarity === 5 ? 'bg-rarity-5' : 'bg-rarity-4'}`} />
                 </div>
-                <span className="text-[9px] text-hsr-text-muted leading-tight text-center truncate w-full">
+                <span className="text-micro text-hsr-text-muted leading-tight text-center truncate w-full">
                   {char.name.replace('Trailblazer (', 'TB (').replace(')', ')')}
                 </span>
                 <div className={`w-2.5 h-2.5 rounded-full ${elemColor.replace('text-', 'bg-').replace('-400', '-500/40')} absolute top-1 right-1`} />
@@ -191,7 +191,7 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
             <div className="w-full h-full bg-hsr-surface-1" />
           )}
         </div>
-        <span className="flex-1 min-w-0 text-[10px] font-medium text-hsr-text truncate leading-tight">
+        <span className="flex-1 min-w-0 text-mini font-medium text-hsr-text truncate leading-tight">
           {charData?.name ?? member.characterId}
         </span>
         <div className="flex items-center gap-1 flex-shrink-0">
@@ -223,7 +223,7 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
 
       {/* Speed input */}
       <div className="flex items-center gap-1.5 px-0.5">
-        <span className="text-[9px] text-hsr-text-dim flex-1">SPD</span>
+        <span className="text-micro text-hsr-text-dim flex-1">SPD</span>
         <input
           type="number"
           value={member.speed}
@@ -245,7 +245,7 @@ function TeamSlot({ member, charData, onRemove, onUpdateSpeed, onToggleEagle, on
             <button
               key={level}
               onClick={() => onSetDDDSuperimposition(level)}
-              className={`flex-1 py-0.5 rounded text-[9px] font-medium transition-colors border ${
+              className={`flex-1 py-0.5 rounded text-micro font-medium transition-colors border ${
                 member.relics.dddSuperimposition === level
                   ? 'bg-hsr-purple-subtle border-hsr-purple-dim text-hsr-purple'
                   : 'border-border text-hsr-text-dim hover:border-hsr-purple-dim hover:text-hsr-text'

@@ -62,14 +62,14 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
         <div>
           <h2 className="text-sm font-semibold text-hsr-text tracking-wide">Timeline</h2>
           {!isEmpty && (
-            <p className="text-[10px] text-hsr-text-muted">
+            <p className="text-mini text-hsr-text-muted">
               {withinCycleCount} turn{withinCycleCount !== 1 ? 's' : ''} within {cycleLimit} AV
             </p>
           )}
         </div>
         {/* Legend */}
         {!isEmpty && (
-          <div className="flex items-center gap-3 text-[9px] text-hsr-text-dim">
+          <div className="flex items-center gap-3 text-micro text-hsr-text-dim">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-turn-character" /> Character
             </span>
@@ -86,11 +86,11 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
       {/* Column headers */}
       {!isEmpty && (
         <div className="flex items-center gap-2 px-3 py-1.5 border-b border-border bg-hsr-surface-2 flex-shrink-0">
-          <span className="text-[9px] text-hsr-text-dim w-5 text-right">#</span>
+          <span className="text-micro text-hsr-text-dim w-5 text-right">#</span>
           <span className="w-7 flex-shrink-0" />
-          <span className="flex-1 text-[9px] text-hsr-text-dim">Actor</span>
-          <span className="text-[9px] text-hsr-text-dim w-14 text-right">AV</span>
-          <span className="text-[9px] text-hsr-text-dim w-20 text-right">Action</span>
+          <span className="flex-1 text-micro text-hsr-text-dim">Actor</span>
+          <span className="text-micro text-hsr-text-dim w-14 text-right">AV</span>
+          <span className="text-micro text-hsr-text-dim w-20 text-right">Action</span>
         </div>
       )}
 
@@ -113,7 +113,7 @@ export function Timeline({ config, simulation, onAssignAction }: Props) {
               {turn.isCycleEdge && (
                 <div className="flex items-center gap-2 px-3 py-1.5 my-0.5">
                   <div className="flex-1 h-px bg-turn-boundary opacity-40" />
-                  <span className="text-[9px] font-medium tracking-wider text-turn-boundary uppercase px-2">
+                  <span className="text-micro font-medium tracking-wider text-turn-boundary uppercase px-2">
                     {cycleLimit} AV — Cycle End
                   </span>
                   <div className="flex-1 h-px bg-turn-boundary opacity-40" />

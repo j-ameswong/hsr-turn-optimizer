@@ -60,7 +60,7 @@ export function StatsPanel({ config, simulation }: Props) {
       <div className="px-4 py-3 space-y-4">
         {/* Summary stat */}
         <div className="flex items-center justify-between">
-          <span className="text-[10px] text-hsr-text-dim uppercase tracking-wider">Avg Team SPD</span>
+          <span className="text-mini text-hsr-text-dim uppercase tracking-wider">Avg Team SPD</span>
           <span className="text-sm font-semibold text-hsr-gold font-mono">
             {avgSpeed.toFixed(1)}
           </span>
@@ -69,19 +69,19 @@ export function StatsPanel({ config, simulation }: Props) {
         {/* Turns chart */}
         {memberStats.some((m) => m.turns > 0) && (
           <div>
-            <p className="text-[10px] text-hsr-text-dim uppercase tracking-wider mb-2">Turns within cycle</p>
+            <p className="text-mini text-hsr-text-dim uppercase tracking-wider mb-2">Turns within cycle</p>
             <ResponsiveContainer width="100%" height={80}>
               <BarChart data={memberStats} margin={{ top: 0, right: 0, bottom: 0, left: -20 }}>
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 9, fill: 'var(--hsr-text-muted)' }}
+                  tick={{ fontSize: 'var(--text-micro)', fill: 'var(--hsr-text-muted)' }}
                   tickFormatter={(v: string) => v.split(' ')[0]}
                   axisLine={false}
                   tickLine={false}
                 />
                 <YAxis
                   allowDecimals={false}
-                  tick={{ fontSize: 9, fill: 'var(--hsr-text-muted)' }}
+                  tick={{ fontSize: 'var(--text-micro)', fill: 'var(--hsr-text-muted)' }}
                   axisLine={false}
                   tickLine={false}
                   width={20}
@@ -92,7 +92,7 @@ export function StatsPanel({ config, simulation }: Props) {
                     background: 'var(--hsr-surface-2)',
                     border: '1px solid var(--border)',
                     borderRadius: '6px',
-                    fontSize: '10px',
+                    fontSize: 'var(--text-mini)',
                     color: 'var(--hsr-text)',
                   }}
                   formatter={(v: number) => [v, 'Turns']}
@@ -109,13 +109,13 @@ export function StatsPanel({ config, simulation }: Props) {
 
         {/* Speed table */}
         <div>
-          <p className="text-[10px] text-hsr-text-dim uppercase tracking-wider mb-2">Speed</p>
+          <p className="text-mini text-hsr-text-dim uppercase tracking-wider mb-2">Speed</p>
           <div className="space-y-1">
             {memberStats.map((m) => (
               <div key={m.id} className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ background: m.color }} />
-                <span className="flex-1 text-[10px] text-hsr-text truncate">{m.name}</span>
-                <span className="text-[10px] font-mono text-hsr-gold">{m.speed}</span>
+                <span className="flex-1 text-mini text-hsr-text truncate">{m.name}</span>
+                <span className="text-mini font-mono text-hsr-gold">{m.speed}</span>
               </div>
             ))}
           </div>
@@ -124,13 +124,13 @@ export function StatsPanel({ config, simulation }: Props) {
         {/* Enemies */}
         {enemyStats.length > 0 && (
           <div>
-            <p className="text-[10px] text-hsr-text-dim uppercase tracking-wider mb-2">Enemies</p>
+            <p className="text-mini text-hsr-text-dim uppercase tracking-wider mb-2">Enemies</p>
             <div className="space-y-1">
               {enemyStats.map((e) => (
                 <div key={e.id} className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-turn-enemy flex-shrink-0" />
-                  <span className="flex-1 text-[10px] text-turn-enemy truncate">{e.name}</span>
-                  <span className="text-[10px] font-mono text-hsr-text-muted">{e.speed}</span>
+                  <span className="flex-1 text-mini text-turn-enemy truncate">{e.name}</span>
+                  <span className="text-mini font-mono text-hsr-text-muted">{e.speed}</span>
                 </div>
               ))}
             </div>

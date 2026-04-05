@@ -3,7 +3,7 @@ import type { ResolvedTurn, TeamConfig, ActionAssignment, SlotKey } from '../../
 import { ActionPicker } from './ActionPicker';
 import { allCharacters } from '../../../hooks/useCharacterData';
 import { characterIcon } from '../../../lib/assets';
-import { ImageWithFallback } from '../figma/ImageWithFallback';
+import { ImageWithFallback } from '../shared/ImageWithFallback';
 
 interface Props {
   turn: ResolvedTurn;
@@ -34,7 +34,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
     <div className={`group ${rowClass}`}>
       <div className={`flex items-center gap-2 px-3 py-2 hover:bg-hsr-surface-2 transition-colors ${isSentinel ? 'bg-transparent' : ''}`}>
         {/* Turn number */}
-        <span className="text-[10px] text-hsr-text-dim w-5 text-right flex-shrink-0 font-mono">
+        <span className="text-mini text-hsr-text-dim w-5 text-right flex-shrink-0 font-mono">
           {index + 1}
         </span>
 
@@ -57,12 +57,12 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
             <span className={`text-xs font-medium truncate ${isEnemy ? 'text-turn-enemy' : 'text-hsr-text'}`}>
               {turn.actorName === turn.actorId ? (charData?.name ?? turn.actorId) : turn.actorName}
             </span>
-            <span className="text-[9px] text-hsr-text-dim flex-shrink-0">#{turn.occurrence}</span>
+            <span className="text-micro text-hsr-text-dim flex-shrink-0">#{turn.occurrence}</span>
           </div>
         </div>
 
         {/* AV */}
-        <span className="text-[10px] font-mono text-hsr-text-muted flex-shrink-0 w-14 text-right">
+        <span className="text-mini font-mono text-hsr-text-muted flex-shrink-0 w-14 text-right">
           {turn.av.toFixed(1)}
         </span>
 
@@ -80,7 +80,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
             ) : (
               <button
                 onClick={() => onOpenWindowAction(turn.slotKey, 'out-of-turn')}
-                className="flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border border-border text-hsr-text-dim hover:border-hsr-purple-dim hover:text-hsr-purple transition-colors"
+                className="flex items-center gap-1 text-mini px-2 py-0.5 rounded border border-border text-hsr-text-dim hover:border-hsr-purple-dim hover:text-hsr-purple transition-colors"
               >
                 <Plus className="w-2.5 h-2.5" />
                 Action
@@ -112,7 +112,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
                         />
                       )}
                     </div>
-                    <span className="text-[10px] text-hsr-purple flex-1">
+                    <span className="text-mini text-hsr-purple flex-1">
                       {actionChar?.name ?? action.actorId} — Ult (in-turn)
                     </span>
                     <button
@@ -126,7 +126,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
               })}
               <button
                 onClick={() => onOpenWindowAction(turn.slotKey, 'in-turn')}
-                className="hidden group-hover:flex items-center gap-1 text-[9px] px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
+                className="hidden group-hover:flex items-center gap-1 text-micro px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
               >
                 <Plus className="w-2.5 h-2.5" />
                 In-turn action
@@ -152,11 +152,11 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
                       />
                     )}
                   </div>
-                  <span className="text-[10px] text-hsr-purple flex-1">
+                  <span className="text-mini text-hsr-purple flex-1">
                     {actionChar?.name ?? action.actorId} — Ult (out-of-turn)
                   </span>
                   {action.eagleAdvanceApplied && (
-                    <div className="flex items-center gap-0.5 text-[9px] text-hsr-gold">
+                    <div className="flex items-center gap-0.5 text-micro text-hsr-gold">
                       <Zap className="w-2.5 h-2.5" />
                       -{action.eagleAdvanceAmount.toFixed(1)} AV
                     </div>
@@ -174,7 +174,7 @@ export function TurnRow({ turn, index, team, onAssignAction, onOpenWindowAction,
             {!isEnemy && (
               <button
                 onClick={() => onOpenWindowAction(turn.slotKey, 'out-of-turn')}
-                className="hidden group-hover:flex items-center gap-1 text-[9px] px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
+                className="hidden group-hover:flex items-center gap-1 text-micro px-2 py-0.5 text-hsr-text-dim hover:text-hsr-purple transition-colors"
               >
                 <Plus className="w-2.5 h-2.5" />
                 Out-of-turn action

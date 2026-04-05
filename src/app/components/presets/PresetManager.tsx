@@ -37,7 +37,7 @@ export function PresetManager({ open, onOpenChange, presets, currentConfig: _con
 
         {/* Save current */}
         <div className="px-4 py-3 border-b border-border flex-shrink-0">
-          <p className="text-[10px] text-hsr-text-dim mb-2">Save current configuration</p>
+          <p className="text-mini text-hsr-text-dim mb-2">Save current configuration</p>
           <div className="flex gap-2">
             <input
               type="text"
@@ -70,14 +70,14 @@ export function PresetManager({ open, onOpenChange, presets, currentConfig: _con
                 >
                   <div className="flex-1 min-w-0">
                     <div className="text-xs font-medium text-hsr-text truncate">{preset.name}</div>
-                    <div className="text-[9px] text-hsr-text-dim">
+                    <div className="text-micro text-hsr-text-dim">
                       {preset.config.members.length} chars · {preset.config.cycleMode.toUpperCase()}
                       {' · '}{new Date(preset.createdAt).toLocaleDateString()}
                     </div>
                   </div>
                   <button
                     onClick={() => { onLoad(preset.config); onOpenChange(false); }}
-                    className="flex items-center gap-1 text-[10px] text-hsr-text-muted hover:text-hsr-text px-2 py-1 rounded border border-transparent hover:border-border transition-colors"
+                    className="flex items-center gap-1 text-mini text-hsr-text-muted hover:text-hsr-text px-2 py-1 rounded border border-transparent hover:border-border transition-colors"
                   >
                     <FolderOpen className="w-3 h-3" />
                     Load
